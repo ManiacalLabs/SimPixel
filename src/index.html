@@ -21,6 +21,28 @@
     </head>
     <body>
 
+        <script type="x-shader/x-vertex" id="vertexshader">
+            uniform float size;
+            attribute vec3 customColor;
+            varying vec3 vColor;
+            void main() {
+                vColor = customColor;
+                vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                gl_PointSize = size * ( 300.0 / -mvPosition.z );
+                gl_Position = projectionMatrix * mvPosition;
+            }
+        </script>
+
+        <script type="x-shader/x-fragment" id="fragmentshader">
+            uniform vec3 color;
+            uniform sampler2D texture;
+            varying vec3 vColor;
+            void main() {
+                gl_FragColor = vec4( (color/255.0) * vColor, 1.0 );
+                gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+            }
+        </script>
+
         <!-- third party -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.0.5/es6-promise.min.js"></script>
@@ -28,6 +50,9 @@
         <script src="js/Detector.js"></script>
 
         <!-- first party -->
+        <script src="js/mock.js"></script>
+        <script src="js/network.js"></script>
+        <script src="js/view.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
