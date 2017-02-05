@@ -8,7 +8,7 @@ import sys
 
 log.setLogLevel(log.DEBUG)
 
-driver = DriverWebVis(9, port=6666, point_list=None)
+driver = DriverWebVis(256, point_list=None)
 led = LEDMatrix(driver, coordMap=None,
                 rotation=Rotation.ROTATE_0, vert_flip=False, serpentine=True,
                 threadedUpdate=False, masterBrightness=255, pixelSize=(1, 1))
@@ -32,7 +32,7 @@ def shutdown():
 try:
     if isinstance(led, LEDMatrix):
         anim = Bloom(led, dir=True)
-        anim.run(amt=6, fps=1)
+        anim.run(amt=6, fps=30)
     elif isinstance(led, LEDCube):
         anim = cuby(led, color_list=c_list)
         anim.run(amt=1, fps=4)
