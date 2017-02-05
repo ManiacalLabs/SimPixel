@@ -1,12 +1,12 @@
-from bibliopixel.animation.matrix import BaseCubeAnim
+from bibliopixel.animation.cube import BaseCubeAnim
 import bibliopixel.colors as colors
 
 
 class cuby(BaseCubeAnim):
 
-    def __init__(self, led, color=[colors.Red]):
+    def __init__(self, led, color_list=[colors.Red]):
         super(cuby, self).__init__(led)
-        self.colors = colors
+        self.colors = color_list
         self.color_index = 0
         self.max = max([self.x, self.y, self.z])
 
