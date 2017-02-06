@@ -1,6 +1,6 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-const HOST = 'ws://10.0.1.60:1337';
+const HOST = 'ws://localhost:1337';
 
 const view = new View();
 const network = new Network(HOST);
