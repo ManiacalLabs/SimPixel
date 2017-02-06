@@ -13,10 +13,10 @@ class cuby(BaseCubeAnim):
     def step(self, amt=1):
         self._led.all_off()
 
-        for x in range(self.max):
-            for y in range(self.max):
-                for z in range(self.max):
-                    self._led.set(x, y, z, self.colors[self.color_index])
+        for x in range(self._step):
+            for y in range(self._step):
+                for z in range(self._step):
+                    self._led.set(x, y, z, self.colors[x % len(self.colors)])
 
         self._step += amt
         if(self._step >= self.max):
