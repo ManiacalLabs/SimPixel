@@ -40,7 +40,7 @@ class View {
         const heightHalf = height / 2;
         const widthHalf = width / 2;
         const depthHalf = depth / 2;
-        this.camera.position.z = height / Math.tan( Math.PI * this.camera.fov / 360 );
+        this.camera.position.z = height / Math.tan( Math.PI * this.camera.fov / 360 ) - 14;
 
         for ( let i = 0, i3 = 0; i < this.count; i ++, i3 = i3 + 3 ) {
             this.positions[ i3 + 0 ] -= widthHalf;
