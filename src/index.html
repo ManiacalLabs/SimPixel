@@ -17,9 +17,18 @@
                 font-family: monospace;
             }
             canvas { position: absolute; z-index: 50; }
+            .conf {
+                color: #555;
+                position: absolute;
+                bottom: 2px;
+                right: 2px;
+                z-index: 100;
+            }
         </style>
     </head>
     <body>
+
+        <div id="connection"></div>
 
         <script type="x-shader/x-vertex" id="vertexshader">
             uniform float size;
@@ -48,9 +57,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.0.5/es6-promise.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.1/fetch.min.js"></script>
         <script src="js/Detector.js"></script>
+        <script src="js/OrbitControls.js"></script>
 
         <!-- first party -->
-        <script src="js/mock.js"></script>
+        <script src="js/bp_host.js"></script>
+        <script src="js/conf.js"></script>
         <script src="js/network.js"></script>
         <script src="js/view.js"></script>
         <script src="js/main.js"></script>

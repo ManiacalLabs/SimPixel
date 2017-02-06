@@ -1,9 +1,21 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-const HOST = 'ws://localhost:1337';
-
 const view = new View();
-const network = new Network(HOST);
+const network = new Network( bpHost() );
+const netStatusDisplay = document.querySelector('#connection');
 
-network.onConf( view.init.bind(view) );
+network.onConnecting( () => netStatusDisplay.innerHTML = 'Connecting...' );
+network.onError( err => {
+    netStatusDisplay.innerHTML = `Could not connect.`;
+});
+network.onConf( conf => {
+    view.init(conf);
+    netStatusDisplay.innerHTML = '';
+});
 network.onColor( view.update.bind(view) );
+network.init();
+
+addHostButton(() => {
+    bpHost(true);
+    location.reload();
+});

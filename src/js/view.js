@@ -2,6 +2,7 @@ class View {
     init(positions) {
         let WIDTH = window.innerWidth;
         let HEIGHT = window.innerHeight;
+        this.sizeDefault = 6;
         this.count = positions.length / 3;
         this.heightScale = HEIGHT / 1000;
         this.widthScale = WIDTH / 1000;
@@ -10,7 +11,7 @@ class View {
         this.scene = new THREE.Scene();
 
         this.uniforms = {
-            size:      { value: 6.0 },
+            size:      { value: this.sizeDefault },
             color:     { value: new THREE.Color( 0xffffff ) },
             texture:   { value: new THREE.TextureLoader().load( "sprites/led.png" ) }
         };
@@ -51,12 +52,17 @@ class View {
             this.colors[ i3 + 2 ] = 1;
         }
 
+        this.adjustViewportFields();
+
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( WIDTH, HEIGHT );
         document.body.appendChild( this.renderer.domElement );
         //
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
+
+        this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+        this.controls.enableZoom = true;
 
         // start animation loop
         this.animate();
@@ -86,6 +92,10 @@ class View {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.adjustViewportFields();
+    }
+    adjustViewportFields() {
+        this.material.uniforms.size.value = this.sizeDefault * this.heightScale;
     }
     destroy() {
         console.error('View.destroy NOT IMPLEMENTED');

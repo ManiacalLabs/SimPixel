@@ -11,3 +11,5 @@ client/css/.sass-cache
 dist
 
 build_files/*.spec
+
+__pycache__
