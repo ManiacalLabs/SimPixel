@@ -29,7 +29,7 @@ class Network {
         switch (opcode) {
             case this.OP_CONF:
                 console.log('configuration received');
-                this.handleConf(new Uint16Array(msg.data, 2));
+                this.handleConf(new Int16Array(msg.data, 2));
                 break;
             case this.OP_COLOR:
                 this.handleColor(new Uint8Array(msg.data, 2));

@@ -6,7 +6,7 @@ const netStatusDisplay = document.querySelector('#connection');
 
 network.onConnecting( () => netStatusDisplay.innerHTML = 'Connecting...' );
 network.onError( err => {
-    netStatusDisplay.innerHTML = `Could not connect.`;
+    netStatusDisplay.innerHTML = `Could not connect: ` + network.HOST;
 });
 network.onConf( conf => {
     view.init(conf);

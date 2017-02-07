@@ -9,7 +9,7 @@ function bpHost(alwaysAsk) {
         bpHost = localStorage.bpHost;
     }
     if (alwaysAsk || (LS_ENABLED && !localStorage.bpHost)) {
-        let requestedHost = prompt('Where is your BiblioPixel WebSocket server running?', bpHost);
+        let requestedHost = prompt('Where is your WebSocket server running?', bpHost);
         if (requestedHost) {
             bpHost = requestedHost;
         }
