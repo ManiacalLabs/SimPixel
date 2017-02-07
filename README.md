@@ -1,6 +1,12 @@
-# BiblioPixel Web Visualizer
+# SimPixel
 
 A WebGL LED visualizer.
+
+## Usage
+
+Unless you want to develop for SimPixel, it couldn't be easier! Just visit http://simpixel.io and enter your local SimPixel Server address and port.
+
+TODO: Add link to docs for using DriverSimPixel
 
 ## Setup
 
