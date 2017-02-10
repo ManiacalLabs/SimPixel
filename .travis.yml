@@ -20,4 +20,4 @@ deploy:
     skip_cleanup: true
     script: rsync -rav --delete $TRAVIS_BUILD_DIR/dist/ simpixel@simpixel.io:/home/simpixel/beta.simpixel.io/
     on:
-      branch: master
+      all_branches: true
