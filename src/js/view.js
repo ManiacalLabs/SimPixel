@@ -11,9 +11,10 @@ class View {
         this.scene = new THREE.Scene();
 
         this.uniforms = {
-            size:      { value: this.sizeDefault },
-            color:     { value: new THREE.Color( 0xffffff ) },
-            texture:   { value: new THREE.TextureLoader().load( "sprites/led.png" ) }
+            size:       { value: this.sizeDefault },
+            color:      { value: new THREE.Color( 0xffffff ) },
+            textureOn:  { value: new THREE.TextureLoader().load( "sprites/led-on.png" ) },
+            textureOff: { value: new THREE.TextureLoader().load( "sprites/led-off.png" ) },
         };
         this.material = new THREE.ShaderMaterial( {
             uniforms:       this.uniforms,

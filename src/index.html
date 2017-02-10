@@ -44,11 +44,20 @@
 
         <script type="x-shader/x-fragment" id="fragmentshader">
             uniform vec3 color;
-            uniform sampler2D texture;
+            uniform sampler2D textureOn;
+            uniform sampler2D textureOff;
             varying vec3 vColor;
             void main() {
-                gl_FragColor = vec4( (color/255.0) * vColor, 1.0 );
-                gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+                /* if color attribute is not black, use 'on' texture with color*/
+                if (length(vColor) > 0.0) {
+                    gl_FragColor = vec4( (color/255.0) * vColor, 1.0 );
+                    gl_FragColor = gl_FragColor * texture2D( textureOn, gl_PointCoord );
+                }
+                /* if color attribute is black, use 'off' texture and dark grey */
+                else {
+                    gl_FragColor = vec4(0.4);
+                    gl_FragColor = gl_FragColor * texture2D( textureOff, gl_PointCoord );
+                }
             }
         </script>
 
