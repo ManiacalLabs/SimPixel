@@ -13,3 +13,5 @@ dist
 build_files/*.spec
 
 __pycache__
+
+id_simpixel
