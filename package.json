@@ -1,5 +1,5 @@
 {
-  "name": "webvis",
+  "name": "SimPixel",
   "version": "1.0.0",
   "description": "A WebGL LED visualizer.",
   "main": "index.js",
@@ -16,4 +16,3 @@
     "browser-sync": "^2.18.2"
   }
 }
-
