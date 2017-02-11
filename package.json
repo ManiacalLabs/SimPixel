@@ -2,7 +2,7 @@
   "name": "SimPixel",
   "version": "1.0.0",
   "description": "A WebGL LED visualizer.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "browser-sync start --server --serveStatic src --files 'src/**/*' --no-inject-changes --directory",

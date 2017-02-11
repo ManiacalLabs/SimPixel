@@ -1,0 +1,5 @@
+{
+  "ignore": [
+    "reconnecting-websocket.js"
+  ]
+}
