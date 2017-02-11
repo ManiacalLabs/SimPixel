@@ -1,6 +1,6 @@
 from bibliopixel.drivers.SimPixel import DriverSimPixel
 from bibliopixel import LEDMatrix, log, colors, LEDCube, Rotation, LEDCircle
-from bibliopixel.led.coord_map import gen_cube, gen_circle, layout_from_rings
+from bibliopixel.layout import gen_cube, gen_circle, layout_from_rings
 from bloom import Bloom
 from cuby import cuby
 from BiblioPixelAnimations.circle.diag import Diag
@@ -11,15 +11,15 @@ import sys
 
 log.setLogLevel(log.DEBUG)
 
-driver = DriverSimPixel(1024, layout=None)
-led = LEDMatrix(driver, width=32, height=32, coordMap=None,
-                rotation=Rotation.ROTATE_0, vert_flip=False, serpentine=True,
-                threadedUpdate=False, masterBrightness=255, pixelSize=(1, 1))
+# driver = DriverSimPixel(1024, layout=None)
+# led = LEDMatrix(driver, width=32, height=32, coordMap=None,
+#                 rotation=Rotation.ROTATE_0, vert_flip=False, serpentine=True,
+#                 threadedUpdate=False, masterBrightness=255, pixelSize=(1, 1))
 
-# x, y, z = (12, 12, 12)
-# driver = DriverSimPixel(x * y * z, layout=None)
-# led = LEDCube(driver, x, y, z, coordMap=None,
-#               threadedUpdate=False, masterBrightness=255)
+x, y, z = (12, 12, 12)
+driver = DriverSimPixel(x * y * z, layout=None)
+led = LEDCube(driver, x, y, z, coordMap=None,
+              threadedUpdate=False, masterBrightness=255)
 
 # pixels_per = [1, 4, 8, 12, 18, 24, 32, 40, 52, 64]
 # rings, steps = gen_circle(rings=None, pixels_per=pixels_per, offset=0, invert=False)

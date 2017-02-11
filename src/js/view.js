@@ -41,8 +41,8 @@ class View {
         const heightHalf = height / 2;
         const widthHalf = width / 2;
         const depthHalf = depth / 2;
-        const cam_z_height = height / Math.tan( Math.PI * this.camera.fov / 360 ) - 14;
-        const cam_z_width = width / Math.cos( Math.PI * this.camera.fov / 360 ) - 14
+        const cam_z_height = height / Math.tan( Math.PI * this.camera.fov / 360 ) * 0.6;
+        const cam_z_width = width / Math.cos( Math.PI * this.camera.fov / 360 ) * 1.4;
         // Position camera to fit whichever dimension is larger
         // Add the depth to that the camera is not in the center of a 3D object
         this.camera.position.z =
