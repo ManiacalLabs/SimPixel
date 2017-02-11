@@ -1,20 +1,24 @@
 class Network {
-    constructor(HOST) {
-        this.OP_CONF  = 0b0000000000000000;
+    constructor(HOST, RECONNECT_TIMEOUT) {
+        this.OP_CONF = 0b0000000000000000;
         this.OP_COLOR = 0b0000000000000001;
         this.HOST = HOST;
 
-        this.confHandler = function () {};
-        this.colorHandler = function () {};
-        this.errorHandler = function () {};
+        this.confHandler = function() {};
+        this.colorHandler = function() {};
+        this.errorHandler = function() {};
     }
     init() {
         this.handleConnecting();
         try {
-            this.ws = new WebSocket( this.HOST );
-            this.ws.binaryType = 'arraybuffer';
+            this.ws = new ReconnectingWebSocket(this.HOST, null, {
+                // debug: true,
+                binaryType: 'arraybuffer',
+                reconnectDecay: 1
+            });
 
             this.ws.onopen = this.openHandler.bind(this);
+            this.ws.onclose = this.closeHandler.bind(this);
             this.ws.onmessage = this.messageHandler.bind(this);
             this.ws.onerror = this.errorHandler.bind(this);
         } catch (e) {
@@ -23,6 +27,9 @@ class Network {
     }
     openHandler(fn) {
         console.log("WebSocket connection established and ready.");
+    }
+    closeHandler(fn) {
+
     }
     messageHandler(msg) {
         const opcode = new DataView(msg.data).getInt16(0);
