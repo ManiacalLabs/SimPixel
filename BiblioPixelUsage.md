@@ -1,6 +1,10 @@
 # Driving SimPixel with BiblioPixel
 
-Just like any other output target for [BiblioPixel](https://github.com/ManiacalLabs/BiblioPixel), SimPixel is just another of the many output drivers available. As such, you can find full details about BiblioPixel usage on the [BiblioPixel Wiki](https://github.com/ManiacalLabs/BiblioPixel/wiki). Instead this will focus on the SimPixel output Driver usage. Note: As of the writing of this, only BiblioPixel 3 is supported and is available in the `dev` branch.
+SimPixel looks like just another of the many output drivers available [BiblioPixel](https://github.com/ManiacalLabs/BiblioPixel), except that you do not need hardware to run it. 
+
+You can find full details about BiblioPixel on the [BiblioPixel Wiki](https://github.com/ManiacalLabs/BiblioPixel/wiki). This document tells you how to use the SimPixel driver specifically. 
+
+Note: As of this writing, only BiblioPixel 3 is supported - it is available on BiblioPixel's `dev` branch [here](https://github.com/ManiacalLabs/BiblioPixel/tree/dev).
 
 ## Basic Example
 
@@ -19,13 +23,13 @@ anim = MatrixCalibrationTest(led)
 anim.run()
 ```
 
-As you can see, there's not really much different
-
 ## Layouts
 
-As you can see from above, there's very little difference between outputting to actual hardware and SimPixel. But one thing that SimPixel requires is a layout defining where each LED is inside the 3D space. All of the base LED classes in BiblioPixel (LEDStrip, LEDMatrix, LEDCube, and LEDCircle) will attempt to automatically generate a best guess layout and pass it to SimPixel.
+If you're familiar with Bibliopixel, you'll see very little difference between a hardware output driver and SimPixel. 
 
-However, you can also pass DriverSimPixel any layout you would like via the `layout` parameter.
+The big difference is that SimPixel requires a layout defining where each LED is inside the 3D space. You can make your own custom layouts, or if you don't specify one, the base LED classes in BiblioPixel (LEDStrip, LEDMatrix, LEDCube, and LEDCircle) use functions from `bibliopixel.layout` to provide a default layout for you.
+
+A custom layout might look like this:
 
 ```python
 strip_layout = [
