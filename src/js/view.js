@@ -1,12 +1,22 @@
 class View {
+    constructor(parent=document.body) {
+        if (typeof parent === 'string') {
+            // selector
+            this.parent = document.querySelector(parent);
+        }
+        else {
+            // node
+            this.parent = parent;
+        }
+    }
     init(positions) {
-        let WIDTH = window.innerWidth;
-        let HEIGHT = window.innerHeight;
+        this.WIDTH = this.parent.offsetWidth;
+        this.HEIGHT = this.parent.offsetHeight;
         this.sizeDefault = 5;
         this.count = positions.length / 3;
-        this.heightScale = HEIGHT / 1000;
-        this.widthScale = WIDTH / 1000;
-        this.camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 );
+        this.heightScale = this.HEIGHT / 1000;
+        this.widthScale = this.WIDTH / 1000;
+        this.camera = new THREE.PerspectiveCamera( 40, this.WIDTH / this.HEIGHT, 1, 10000 );
         this.camera.position.z = 400;
         this.scene = new THREE.Scene();
 
@@ -35,11 +45,11 @@ class View {
 
         // calculate ideal camera distance
         this.geometry.computeBoundingBox();
-        const height = this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y;
         const width = this.geometry.boundingBox.max.x - this.geometry.boundingBox.min.x;
+        const height = this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y;
         const depth = this.geometry.boundingBox.max.z - this.geometry.boundingBox.min.z;
-        const heightHalf = height / 2;
         const widthHalf = width / 2;
+        const heightHalf = height / 2;
         const depthHalf = depth / 2;
         const cam_z_height = height / Math.tan( Math.PI * this.camera.fov / 360 ) * 0.6;
         const cam_z_width = width / Math.cos( Math.PI * this.camera.fov / 360 ) * 1.4;
@@ -62,8 +72,8 @@ class View {
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio( window.devicePixelRatio );
-        this.renderer.setSize( WIDTH, HEIGHT );
-        document.body.appendChild( this.renderer.domElement );
+        this.renderer.setSize( this.WIDTH, this.HEIGHT );
+        this.parent.appendChild( this.renderer.domElement );
         //
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
@@ -94,11 +104,13 @@ class View {
         this.particleSystem.rotation.y += Math.PI / 2048;
     }
     onWindowResize() {
-        this.heightScale = window.innerHeight / 1000;
-        this.widthScale = window.innerWidth / 1000;
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.WIDTH = this.parent.offsetWidth;
+        this.HEIGHT = this.parent.offsetHeight;
+        this.widthScale = this.WIDTH / 1000;
+        this.heightScale = this.HEIGHT / 1000;
+        this.camera.aspect = this.WIDTH / this.HEIGHT;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setSize( this.WIDTH, this.HEIGHT );
         this.adjustViewportFields();
     }
     adjustViewportFields() {

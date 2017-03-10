@@ -5,6 +5,7 @@ class Network {
         this.OP_COLOR = 0b0000000000000001;
         this.HOST = HOST;
 
+        this.connectingHandler = function () {};
         this.confHandler = function() {};
         this.colorHandler = function() {};
         this.errorHandler = function() {};

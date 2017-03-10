@@ -16,7 +16,12 @@
                 background: black;
                 font-family: monospace;
             }
-            canvas { position: absolute; z-index: 50; }
+            #container {
+                position: absolute;
+                z-index: 50;
+                width: 300px;
+                height: 200px;
+            }
             .conf {
                 color: #555;
                 position: absolute;
@@ -27,6 +32,8 @@
         </style>
     </head>
     <body>
+
+        <div id="container"></div>
 
         <div id="connection"></div>
 
