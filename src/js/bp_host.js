@@ -3,19 +3,5 @@
  */
 function bpHost(alwaysAsk) {
     const BP_HOST_DEFAULT = 'localhost:1337';
-    const LS_ENABLED = typeof localStorage !== 'undefined';
-    let bpHost = BP_HOST_DEFAULT;
-    if (LS_ENABLED && localStorage.bpHost) {
-        bpHost = localStorage.bpHost;
-    }
-    if (alwaysAsk || (LS_ENABLED && !localStorage.bpHost)) {
-        let requestedHost = prompt('Where is your WebSocket server running?', bpHost);
-        if (requestedHost) {
-            bpHost = requestedHost;
-        }
-    }
-    if (LS_ENABLED) {
-        localStorage.bpHost = bpHost;
-    }
-    return 'ws://' + bpHost;
+    return 'ws://' + BP_HOST_DEFAULT;
 }
