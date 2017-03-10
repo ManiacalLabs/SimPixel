@@ -1,3 +1,24 @@
+window.messageLog = [];
+window.log = true;
+function _base64ToArrayBuffer(base64) {
+    var binary_string =  window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+function _arrayBufferToBase64( buffer ) {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
+
 class Network {
     constructor(HOST, RECONNECT_TIMEOUT) {
         this.OP_CONF = 0b0000000000000000;
@@ -32,6 +53,7 @@ class Network {
 
     }
     messageHandler(msg) {
+        if(window.log) window.messageLog.push(_arrayBufferToBase64(msg.data));
         const opcode = new DataView(msg.data).getInt16(0);
         switch (opcode) {
             case this.OP_CONF:

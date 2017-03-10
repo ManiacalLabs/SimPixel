@@ -2,12 +2,12 @@ class View {
     init(positions) {
         let WIDTH = window.innerWidth;
         let HEIGHT = window.innerHeight;
-        this.sizeDefault = 6;
+        this.sizeDefault = 5;
         this.count = positions.length / 3;
         this.heightScale = HEIGHT / 1000;
         this.widthScale = WIDTH / 1000;
         this.camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 );
-        this.camera.position.z = 260;
+        this.camera.position.z = 300;
         this.scene = new THREE.Scene();
 
         this.uniforms = {
@@ -91,6 +91,7 @@ class View {
         //     this.colors[ i3 + 2 ] = (Math.random() + 0.5);
         // }
         this.geometry.attributes.customColor.needsUpdate = true;
+        this.particleSystem.rotation.y += Math.PI / 2048;
     }
     onWindowResize() {
         this.heightScale = window.innerHeight / 1000;
