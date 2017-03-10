@@ -7,7 +7,7 @@ class View {
         this.heightScale = HEIGHT / 1000;
         this.widthScale = WIDTH / 1000;
         this.camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 );
-        this.camera.position.z = 300;
+        this.camera.position.z = 400;
         this.scene = new THREE.Scene();
 
         this.uniforms = {
@@ -46,7 +46,7 @@ class View {
         // Position camera to fit whichever dimension is larger
         // Add the depth to that the camera is not in the center of a 3D object
         this.camera.position.z =
-            (((cam_z_height >= cam_z_width) ? cam_z_height : cam_z_width) + depth)
+            (((cam_z_height >= cam_z_width) ? cam_z_height : cam_z_width) + depth + 10)
 
         for ( let i = 0, i3 = 0; i < this.count; i ++, i3 = i3 + 3 ) {
             this.positions[ i3 + 0 ] -= widthHalf;
