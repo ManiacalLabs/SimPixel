@@ -15,7 +15,7 @@ class View {
         this.HEIGHT = this.parent.offsetHeight;
         this.sizeDefault = 5;
         this.count = positions.length / 3;
-        this.heightScale = this.HEIGHT / 1000;
+        this.heightScale = Math.max(1, this.HEIGHT / 1000);
         this.widthScale = this.WIDTH / 1000;
         this.camera = new THREE.PerspectiveCamera( 40, this.WIDTH / this.HEIGHT, 1, 10000 );
         this.camera.position.z = 400;
@@ -108,7 +108,7 @@ class View {
         this.WIDTH = this.parent.offsetWidth;
         this.HEIGHT = this.parent.offsetHeight;
         this.widthScale = this.WIDTH / 1000;
-        this.heightScale = this.HEIGHT / 1000;
+        this.heightScale = Math.max(1, this.HEIGHT / 1000);
         this.camera.aspect = this.WIDTH / this.HEIGHT;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( this.WIDTH, this.HEIGHT );
