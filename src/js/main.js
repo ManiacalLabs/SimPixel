@@ -1,6 +1,6 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-const view = new View('body');
+const view = new View('#container');
 const network = new Network( bpHost(), 1000 );
 const netStatusDisplay = document.querySelector('#connection');
 
