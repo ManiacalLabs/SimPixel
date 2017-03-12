@@ -10,6 +10,7 @@ class View {
         }
     }
     init(positions) {
+        this.removeParticleSystem(); // in case we were initialized already
         this.WIDTH = this.parent.offsetWidth;
         this.HEIGHT = this.parent.offsetHeight;
         this.sizeDefault = 5;
@@ -116,7 +117,24 @@ class View {
     adjustViewportFields() {
         this.material.uniforms.size.value = this.sizeDefault * this.heightScale;
     }
+    removeParticleSystem() {
+        // this shouldbe enough to free all memory, making re-initialization
+        // free of memory leaks
+
+        // if we've been initialized before
+        if (this.scene) {
+            console.log(`removing old particle system`);
+            this.scene.remove(this.particleSystem);
+            this.particleSystem.geometry.dispose(); // free geometry
+            this.particleSystem.material.uniforms.textureOn.value.dispose(); // free LED-on texture
+            this.particleSystem.material.uniforms.textureOff.value.dispose(); // free LED-off texture
+            this.particleSystem.material.dispose(); // free material
+            this.renderer.dispose(); // free renderer
+            this.renderer.domElement.remove(); // remove the canvas
+        }
+    }
     destroy() {
-        console.error('View.destroy NOT IMPLEMENTED');
+        console.log(`destroying`);
+        this.removeParticleSystem();
     }
 }
