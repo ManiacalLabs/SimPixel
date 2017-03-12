@@ -95,4 +95,30 @@ class Network {
         }
         return bytes.buffer;
     }
+
+    // Stashing these here.  This was used in network.js to generate a
+    // recording.  Saving it here in case it's needed, but a real recording
+    // setup should probably be rebuilt.
+    //
+    // window.messageLog = [];
+    // window.log = true;
+    // function _base64ToArrayBuffer(base64) {
+    //     var binary_string =  window.atob(base64);
+    //     var len = binary_string.length;
+    //     var bytes = new Uint8Array( len );
+    //     for (var i = 0; i < len; i++)        {
+    //         bytes[i] = binary_string.charCodeAt(i);
+    //     }
+    //     return bytes.buffer;
+    // }
+    // function _arrayBufferToBase64( buffer ) {
+    //     var binary = '';
+    //     var bytes = new Uint8Array( buffer );
+    //     var len = bytes.byteLength;
+    //     for (var i = 0; i < len; i++) {
+    //         binary += String.fromCharCode( bytes[ i ] );
+    //     }
+    //     return window.btoa( binary );
+    // }
+
 }
