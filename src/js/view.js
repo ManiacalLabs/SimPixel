@@ -102,7 +102,6 @@ class View {
         //     this.colors[ i3 + 2 ] = (Math.random() + 0.5);
         // }
         this.geometry.attributes.customColor.needsUpdate = true;
-        this.particleSystem.rotation.y += Math.PI / 2048;
     }
     onWindowResize() {
         this.WIDTH = this.parent.offsetWidth;
