@@ -1,5 +1,9 @@
 {
   "ignore": [
-    "reconnecting-websocket.js"
+    "reconnecting-websocket.js",
+    "three.min.js",
+    "es6-promise.min.js",
+    "fetch.min.js",
+    "dat.gui.min.js"
   ]
 }
