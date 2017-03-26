@@ -141,9 +141,18 @@ class View {
         panel.add(this, 'darkLEDsVisible')
             .name('Show dark LEDs')
             .onChange(p => this.showDarkLEDs(p));
+
+        panel.add(this, 'reset_camera')
+            .name('Reset Camera');
+
+        // panel.add({ reset_camera: () => this.reset_camera() }, 'reset_camera').name('Reset camera');
     }
     showDarkLEDs(bool) {
         this.particleSystem.material.uniforms.uDarkLEDsVisible.value = ~~bool;
+    }
+    reset_camera(){
+        console.log('Testing');
+        this.controls.reset();
     }
     destroy() {
         console.log(`destroying`);
