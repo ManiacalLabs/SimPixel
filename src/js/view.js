@@ -67,6 +67,9 @@ class View {
             this.positions[ i3 + 1 ] -= heightHalf;
             this.positions[ i3 + 2 ] -= depthHalf;
 
+            // Flip Y axis
+            this.positions[ i3 + 1] *= -1;
+
             this.colors[ i3 + 0 ] = 1;
             this.colors[ i3 + 1 ] = 1;
             this.colors[ i3 + 2 ] = 1;
