@@ -10,12 +10,12 @@ class View {
         this.initHandlers = [];
         this.initialized = false;
         this.darkLEDsVisible = true;
+        this.sizeDefault = 5;
     }
     init(positions) {
         this.removeParticleSystem(); // in case we were initialized already
         this.WIDTH = this.parent.offsetWidth;
         this.HEIGHT = this.parent.offsetHeight;
-        this.sizeDefault = 5;
         this.count = positions.length / 3;
         this.heightScale = Math.max(1, this.HEIGHT / 1000);
         this.widthScale = this.WIDTH / 1000;
@@ -153,6 +153,13 @@ class View {
         }
     }
     registerConfs(panel) {
+        panel.add(this, 'sizeDefault')
+            .name('Point Size')
+            .min(1)
+            .max(100)
+            .step(1)
+            .onChange(p => this.adjustViewportFields());
+
         panel.add(this, 'darkLEDsVisible')
             .name('Show dark LEDs')
             .onChange(p => this.showDarkLEDs(p));
