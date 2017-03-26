@@ -10,6 +10,7 @@ class View {
         }
         this.initHandlers = [];
         this.initialized = false;
+        this.darkLEDsVisible = true;
     }
     init(positions) {
         this.removeParticleSystem(); // in case we were initialized already
@@ -22,7 +23,6 @@ class View {
         this.camera = new THREE.PerspectiveCamera( 40, this.WIDTH / this.HEIGHT, 1, 10000 );
         this.camera.position.z = 400;
         this.scene = new THREE.Scene();
-        this.darkLEDsVisible = true;
         this.uniforms = {
             size             : { value: this.sizeDefault },
             color            : { value: new THREE.Color( 0xffffff ) },
@@ -103,6 +103,7 @@ class View {
      */
     update(colors) {
         this.colors.set(colors);
+        this.colors.fill(0);
         this.geometry.attributes.customColor.needsUpdate = true;
     }
     onWindowResize() {
@@ -138,17 +139,6 @@ class View {
         }
     }
     registerConfs(panel) {
-        // we can't register anything with the conf panel until this View is
-        // initialized, so if it isn't initialized yet, set up a handler to be
-        // run as soon as it's initialized.
-        if (this.initialized) {
-            this._registerConfs(panel);
-        }
-        else {
-            this.onInit(() => this._registerConfs(panel));
-        }
-    }
-    _registerConfs(panel) {
         panel.add(this, 'darkLEDsVisible')
             .name('Show dark LEDs')
             .onChange(p => this.showDarkLEDs(p));
