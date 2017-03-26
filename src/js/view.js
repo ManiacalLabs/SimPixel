@@ -103,7 +103,6 @@ class View {
      */
     update(colors) {
         this.colors.set(colors);
-        this.colors.fill(0);
         this.geometry.attributes.customColor.needsUpdate = true;
     }
     onWindowResize() {
