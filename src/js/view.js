@@ -1,10 +1,9 @@
 class View {
-    constructor(parent=document.body) {
+    constructor(parent = document.body) {
         if (typeof parent === 'string') {
             // selector
             this.parent = document.querySelector(parent);
-        }
-        else {
+        } else {
             // node
             this.parent = parent;
         }
@@ -20,32 +19,42 @@ class View {
         this.count = positions.length / 3;
         this.heightScale = Math.max(1, this.HEIGHT / 1000);
         this.widthScale = this.WIDTH / 1000;
-        this.camera = new THREE.PerspectiveCamera( 40, this.WIDTH / this.HEIGHT, 1, 10000 );
+        this.camera = new THREE.PerspectiveCamera(40, this.WIDTH / this.HEIGHT, 1, 10000);
         this.camera.position.z = 400;
         this.scene = new THREE.Scene();
         this.uniforms = {
-            size             : { value: this.sizeDefault },
-            color            : { value: new THREE.Color( 0xffffff ) },
-            uTextureOn       : { value: new THREE.TextureLoader().load( "sprites/led-on.png" ) },
-            uTextureOff      : { value: new THREE.TextureLoader().load( "sprites/led-off.png" ) },
-            uDarkLEDsVisible : { value: 1.0 },
+            size: {
+                value: this.sizeDefault
+            },
+            color: {
+                value: new THREE.Color(0xffffff)
+            },
+            uTextureOn: {
+                value: new THREE.TextureLoader().load("sprites/led-on.png")
+            },
+            uTextureOff: {
+                value: new THREE.TextureLoader().load("sprites/led-off.png")
+            },
+            uDarkLEDsVisible: {
+                value: 1.0
+            },
         };
-        this.material = new THREE.ShaderMaterial( {
-            uniforms:       this.uniforms,
-            vertexShader:   document.getElementById( 'vertexshader' ).textContent,
-            fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-            blending:       THREE.AdditiveBlending,
-            depthTest:      false,
-            transparent:    true,
+        this.material = new THREE.ShaderMaterial({
+            uniforms: this.uniforms,
+            vertexShader: document.getElementById('vertexshader').textContent,
+            fragmentShader: document.getElementById('fragmentshader').textContent,
+            blending: THREE.AdditiveBlending,
+            depthTest: false,
+            transparent: true,
         });
         this.geometry = new THREE.BufferGeometry();
-        this.positions = new Float32Array( this.count * 3 );
-        this.colors = new Float32Array( this.count * 3 );
+        this.positions = new Float32Array(this.count * 3);
+        this.colors = new Float32Array(this.count * 3);
         this.positions.set(positions);
-        this.geometry.addAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ) );
-        this.geometry.addAttribute( 'customColor', new THREE.BufferAttribute( this.colors, 3 ) );
-        this.particleSystem = new THREE.Points( this.geometry, this.material );
-        this.scene.add( this.particleSystem );
+        this.geometry.addAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+        this.geometry.addAttribute('customColor', new THREE.BufferAttribute(this.colors, 3));
+        this.particleSystem = new THREE.Points(this.geometry, this.material);
+        this.scene.add(this.particleSystem);
 
         // calculate ideal camera distance
         this.geometry.computeBoundingBox();
@@ -55,36 +64,36 @@ class View {
         const widthHalf = width / 2;
         const heightHalf = height / 2;
         const depthHalf = depth / 2;
-        const cam_z_height = height / Math.tan( Math.PI * this.camera.fov / 360 ) * 0.6;
-        const cam_z_width = width / Math.cos( Math.PI * this.camera.fov / 360 ) * 1.4;
+        const cam_z_height = height / Math.tan(Math.PI * this.camera.fov / 360) * 0.6;
+        const cam_z_width = width / Math.cos(Math.PI * this.camera.fov / 360) * 1.4;
         // Position camera to fit whichever dimension is larger
         // Add the depth to that the camera is not in the center of a 3D object
         this.camera.position.z =
             (((cam_z_height >= cam_z_width) ? cam_z_height : cam_z_width) + depth + 10)
 
-        for ( let i = 0, i3 = 0; i < this.count; i ++, i3 = i3 + 3 ) {
-            this.positions[ i3 + 0 ] -= widthHalf;
-            this.positions[ i3 + 1 ] -= heightHalf;
-            this.positions[ i3 + 2 ] -= depthHalf;
+        for (let i = 0, i3 = 0; i < this.count; i++, i3 = i3 + 3) {
+            this.positions[i3 + 0] -= widthHalf;
+            this.positions[i3 + 1] -= heightHalf;
+            this.positions[i3 + 2] -= depthHalf;
 
             // Flip Y axis
-            this.positions[ i3 + 1] *= -1;
+            this.positions[i3 + 1] *= -1;
 
-            this.colors[ i3 + 0 ] = 1;
-            this.colors[ i3 + 1 ] = 1;
-            this.colors[ i3 + 2 ] = 1;
+            this.colors[i3 + 0] = 1;
+            this.colors[i3 + 1] = 1;
+            this.colors[i3 + 2] = 1;
         }
 
         this.adjustViewportFields();
 
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setPixelRatio( window.devicePixelRatio );
-        this.renderer.setSize( this.WIDTH, this.HEIGHT );
-        this.parent.appendChild( this.renderer.domElement );
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(this.WIDTH, this.HEIGHT);
+        this.parent.appendChild(this.renderer.domElement);
         //
-        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
+        window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
-        this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableZoom = true;
 
         this.initialized = true;
@@ -95,10 +104,10 @@ class View {
         this.animate();
     }
     render() {
-        this.renderer.render( this.scene, this.camera );
+        this.renderer.render(this.scene, this.camera);
     }
     animate() {
-        requestAnimationFrame( this.animate.bind(this) );
+        requestAnimationFrame(this.animate.bind(this));
         this.render();
     }
     /**
@@ -115,7 +124,7 @@ class View {
         this.heightScale = Math.max(1, this.HEIGHT / 1000);
         this.camera.aspect = this.WIDTH / this.HEIGHT;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize( this.WIDTH, this.HEIGHT );
+        this.renderer.setSize(this.WIDTH, this.HEIGHT);
         this.adjustViewportFields();
     }
     onInit(fn) {
@@ -148,14 +157,41 @@ class View {
         panel.add(this, 'reset_camera')
             .name('Reset Camera');
 
-        // panel.add({ reset_camera: () => this.reset_camera() }, 'reset_camera').name('Reset camera');
+        panel.add(this, 'toggle_fullscreen')
+            .name('Toggle Fullscreen');
+
     }
     showDarkLEDs(bool) {
         this.particleSystem.material.uniforms.uDarkLEDsVisible.value = ~~bool;
     }
-    reset_camera(){
+    reset_camera() {
         console.log('Testing');
         this.controls.reset();
+    }
+    toggle_fullscreen(elem) {
+        elem = elem || document.documentElement;
+        if (!document.fullscreenElement && !document.mozFullScreenElement &&
+            !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
     }
     destroy() {
         console.log(`destroying`);

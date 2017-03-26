@@ -29,4 +29,4 @@ network.init();
 
 // add a view source button to the panel
 
-panel.add({ viewSource: () => window.open('https://github.com/ManiacalLabs/SimPixel') }, 'viewSource').name('View source');
+panel.add({ viewSource: () => window.open('https://github.com/ManiacalLabs/SimPixel') }, 'viewSource').name('View Source');
