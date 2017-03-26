@@ -58,6 +58,8 @@ class View {
 
         // calculate ideal camera distance
         this.geometry.computeBoundingBox();
+        console.log(this.geometry.boundingBox.max);
+        console.log(this.geometry.boundingBox.min);
         const width = this.geometry.boundingBox.max.x - this.geometry.boundingBox.min.x;
         const height = this.geometry.boundingBox.max.y - this.geometry.boundingBox.min.y;
         const depth = this.geometry.boundingBox.max.z - this.geometry.boundingBox.min.z;
@@ -71,10 +73,11 @@ class View {
         this.camera.position.z =
             (((cam_z_height >= cam_z_width) ? cam_z_height : cam_z_width) + depth + 10)
 
+        console.log("(" + widthHalf + "," + heightHalf + "," + depthHalf + ")");
         for (let i = 0, i3 = 0; i < this.count; i++, i3 = i3 + 3) {
-            this.positions[i3 + 0] -= widthHalf;
-            this.positions[i3 + 1] -= heightHalf;
-            this.positions[i3 + 2] -= depthHalf;
+            this.positions[i3 + 0] -= (this.geometry.boundingBox.min.x + widthHalf);
+            this.positions[i3 + 1] -= (this.geometry.boundingBox.min.y + heightHalf);
+            this.positions[i3 + 2] -= (this.geometry.boundingBox.min.z + depthHalf);
 
             // Flip Y axis
             this.positions[i3 + 1] *= -1;
