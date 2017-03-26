@@ -8,6 +8,7 @@ class Network {
         this.confHandler = function() {};
         this.colorHandler = function() {};
         this.errorHandler = function() {};
+        this.initHandler = function() {};
     }
     init() {
         this.handleConnecting();
@@ -22,7 +23,9 @@ class Network {
             this.ws.onclose = this.closeHandler.bind(this);
             this.ws.onmessage = this.messageHandler.bind(this);
             this.ws.onerror = this.errorHandler.bind(this);
+            this.initHandler();
         } catch (e) {
+            this.initHandler(e);
             this.errorHandler(e);
         }
     }
@@ -45,6 +48,16 @@ class Network {
             default:
                 console.warn(`unrecognized opcode: ${opcode}`);
         }
+    }
+    registerConfs(panel) {
+        panel.add(this, 'HOST').name('Server').onFinishChange(this.changeHost.bind(this));
+    }
+    changeHost(host) {
+        this.ws.url = host;
+        this.ws.open();
+    }
+    onInit(fn) {
+        this.initHandler = fn;
     }
     onConnecting(fn) {
         this.connectingHandler = fn;

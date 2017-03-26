@@ -59,6 +59,9 @@ class Network {
                 console.warn(`unrecognized opcode: ${opcode}`);
         }
     }
+    registerConfs(panel) {
+        panel.add(this, 'HOST').name('Server');
+    }
     onConnecting(fn) {
         this.connectingHandler = fn;
     }

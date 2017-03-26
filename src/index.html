@@ -29,6 +29,9 @@
                 right: 2px;
                 z-index: 100;
             }
+            div.dg.ac {
+                z-index: 200;
+            }
         </style>
     </head>
     <body>
@@ -51,19 +54,26 @@
 
         <script type="x-shader/x-fragment" id="fragmentshader">
             uniform vec3 color;
-            uniform sampler2D textureOn;
-            uniform sampler2D textureOff;
+            uniform sampler2D uTextureOn;
+            uniform sampler2D uTextureOff;
+            uniform float uDarkLEDsVisible;
             varying vec3 vColor;
+
             void main() {
                 /* if color attribute is not black, use 'on' texture with color*/
                 if (length(vColor) > 0.0) {
                     gl_FragColor = vec4( (color/255.0) * vColor, 1.0 );
-                    gl_FragColor = gl_FragColor * texture2D( textureOn, gl_PointCoord );
+                    gl_FragColor = gl_FragColor * texture2D( uTextureOn, gl_PointCoord );
                 }
-                /* if color attribute is black, use 'off' texture and dark grey */
+                /* if color attribute is black, use 'off' texture or show nothing */
                 else {
-                    gl_FragColor = vec4(0.4);
-                    gl_FragColor = gl_FragColor * texture2D( textureOff, gl_PointCoord );
+                    if (uDarkLEDsVisible == 1.0) {
+                        gl_FragColor = vec4(0.4);
+                        gl_FragColor = gl_FragColor * texture2D( uTextureOff, gl_PointCoord );
+                    }
+                    else {
+                        gl_FragColor = vec4(0.0);
+                    }
                 }
             }
         </script>
@@ -72,6 +82,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.0.5/es6-promise.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.1/fetch.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.3/dat.gui.min.js"></script>
         <script src="js/Detector.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/reconnecting-websocket.js"></script>
@@ -79,6 +90,7 @@
         <!-- first party -->
         <script src="js/bp_host.js"></script>
         <script src="js/conf.js"></script>
+        <script src="js/conf-panel.js"></script>
         <script src="js/network.js"></script>
         <script src="js/view.js"></script>
         <script src="js/main.js"></script>

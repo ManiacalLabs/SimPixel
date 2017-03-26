@@ -8,6 +8,8 @@ class View {
             // node
             this.parent = parent;
         }
+        this.initHandlers = [];
+        this.initialized = false;
     }
     init(positions) {
         this.removeParticleSystem(); // in case we were initialized already
@@ -20,12 +22,13 @@ class View {
         this.camera = new THREE.PerspectiveCamera( 40, this.WIDTH / this.HEIGHT, 1, 10000 );
         this.camera.position.z = 400;
         this.scene = new THREE.Scene();
-
+        this.darkLEDsVisible = true;
         this.uniforms = {
-            size:       { value: this.sizeDefault },
-            color:      { value: new THREE.Color( 0xffffff ) },
-            textureOn:  { value: new THREE.TextureLoader().load( "sprites/led-on.png" ) },
-            textureOff: { value: new THREE.TextureLoader().load( "sprites/led-off.png" ) },
+            size             : { value: this.sizeDefault },
+            color            : { value: new THREE.Color( 0xffffff ) },
+            uTextureOn       : { value: new THREE.TextureLoader().load( "sprites/led-on.png" ) },
+            uTextureOff      : { value: new THREE.TextureLoader().load( "sprites/led-off.png" ) },
+            uDarkLEDsVisible : { value: 1.0 },
         };
         this.material = new THREE.ShaderMaterial( {
             uniforms:       this.uniforms,
@@ -81,6 +84,10 @@ class View {
         this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
         this.controls.enableZoom = true;
 
+        this.initialized = true;
+        // run onInit handlers
+        this.initHandlers.forEach(f => f());
+
         // start animation loop
         this.animate();
     }
@@ -96,11 +103,6 @@ class View {
      */
     update(colors) {
         this.colors.set(colors);
-        // for ( let i = 0, i3 = 0; i < this.count; i++, i3 = i3 + 3 ) {
-        //     this.colors[ i3 + 0 ] = (Math.random() + 0.5);
-        //     this.colors[ i3 + 1 ] = (Math.random() + 0.5);
-        //     this.colors[ i3 + 2 ] = (Math.random() + 0.5);
-        // }
         this.geometry.attributes.customColor.needsUpdate = true;
     }
     onWindowResize() {
@@ -113,11 +115,14 @@ class View {
         this.renderer.setSize( this.WIDTH, this.HEIGHT );
         this.adjustViewportFields();
     }
+    onInit(fn) {
+        this.initHandlers.push(fn);
+    }
     adjustViewportFields() {
         this.material.uniforms.size.value = this.sizeDefault * this.heightScale;
     }
     removeParticleSystem() {
-        // this shouldbe enough to free all memory, making re-initialization
+        // this should be enough to free all memory, making re-initialization
         // free of memory leaks
 
         // if we've been initialized before
@@ -125,12 +130,31 @@ class View {
             console.log(`removing old particle system`);
             this.scene.remove(this.particleSystem);
             this.particleSystem.geometry.dispose(); // free geometry
-            this.particleSystem.material.uniforms.textureOn.value.dispose(); // free LED-on texture
-            this.particleSystem.material.uniforms.textureOff.value.dispose(); // free LED-off texture
+            this.particleSystem.material.uniforms.uTextureOn.value.dispose(); // free LED-on texture
+            this.particleSystem.material.uniforms.uTextureOff.value.dispose(); // free LED-off texture
             this.particleSystem.material.dispose(); // free material
             this.renderer.dispose(); // free renderer
             this.renderer.domElement.remove(); // remove the canvas
         }
+    }
+    registerConfs(panel) {
+        // we can't register anything with the conf panel until this View is
+        // initialized, so if it isn't initialized yet, set up a handler to be
+        // run as soon as it's initialized.
+        if (this.initialized) {
+            this._registerConfs(panel);
+        }
+        else {
+            this.onInit(() => this._registerConfs(panel));
+        }
+    }
+    _registerConfs(panel) {
+        panel.add(this, 'darkLEDsVisible')
+            .name('Show dark LEDs')
+            .onChange(p => this.showDarkLEDs(p));
+    }
+    showDarkLEDs(bool) {
+        this.particleSystem.material.uniforms.uDarkLEDsVisible.value = ~~bool;
     }
     destroy() {
         console.log(`destroying`);
