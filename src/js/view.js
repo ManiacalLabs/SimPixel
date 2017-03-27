@@ -168,7 +168,7 @@ class View {
             .name('Reset Camera');
 
         panel.add(this, 'toggle_fullscreen')
-            .name('Toggle Fullscreen');
+            .name('Fullscreen');
 
     }
     showDarkLEDs(bool) {
