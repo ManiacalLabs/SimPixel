@@ -73,6 +73,9 @@ class View {
         this.camera.position.z =
             (((cam_z_height >= cam_z_width) ? cam_z_height : cam_z_width) + depth + 10)
 
+        var pixel_size = Math.round((64.0 / 1200.0) * this.camera.position.z)
+        this.sizeDefault = Math.min(Math.max(parseInt(pixel_size), 1), 64);
+
         console.log("(" + widthHalf + "," + heightHalf + "," + depthHalf + ")");
         for (let i = 0, i3 = 0; i < this.count; i++, i3 = i3 + 3) {
             this.positions[i3 + 0] -= (this.geometry.boundingBox.min.x + widthHalf);
@@ -156,8 +159,9 @@ class View {
         panel.add(this, 'sizeDefault')
             .name('Point Size')
             .min(1)
-            .max(100)
+            .max(64)
             .step(1)
+            .listen()
             .onChange(p => this.adjustViewportFields());
 
         panel.add(this, 'darkLEDsVisible')
@@ -175,7 +179,6 @@ class View {
         this.particleSystem.material.uniforms.uDarkLEDsVisible.value = ~~bool;
     }
     reset_camera() {
-        console.log('Testing');
         this.controls.reset();
     }
     toggle_fullscreen(elem) {
