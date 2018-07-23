@@ -65,13 +65,13 @@
  * =======
  * Options can either be passed upon instantiation or set after instantiation:
  *
- * var socket = new ReconnectingWebSocket(url, null, { debug: true, reconnectInterval: 4000 });
+ * var socket = new ReconnectingWebSocket(url, null, { debug: true, reconnectInterval: 1000 });
  *
  * or
  *
  * var socket = new ReconnectingWebSocket(url);
  * socket.debug = true;
- * socket.reconnectInterval = 4000;
+ * socket.reconnectInterval = 1000;
  *
  * debug
  * - Whether this instance should log debug messages. Accepts true or false. Default: false.
