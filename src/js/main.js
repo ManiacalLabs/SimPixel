@@ -1,7 +1,8 @@
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 const view = new View('#container');
-const network = new Network( bpHost(), 1000 );
+const params = bpParams()
+const network = new Network( params.host, 1000 );
 const netStatusDisplay = document.querySelector('#connection');
 
 // create a conf panel and allow each module to register its own configuration
@@ -18,6 +19,11 @@ network.onError( err => {
 });
 network.onConf( conf => {
     view.init(conf);
+    // Set point size if in config parameters
+    if (params.size) {
+        view.sizeDefault = params.size;
+        view.adjustViewportFields();
+    }
     netStatusDisplay.innerHTML = '';
 });
 network.onColor( view.update.bind(view) );
