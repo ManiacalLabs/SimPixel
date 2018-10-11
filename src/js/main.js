@@ -19,19 +19,9 @@ network.onError( err => {
 });
 network.onConf( conf => {
     view.init(conf);
-    // Set point size if in config parameters
-    view.sizeDefault = params.size;
-    view.adjustViewportFields();
-    // Set dark LEDs if in config parameters
-    view.darkLEDsVisible = params.dark;
-    view.showDarkLEDs(view.darkLEDsVisible);
-    // Iterate over all controllers to update parameters
-    const gui = view.gui;
-    if (gui) {
-        for (var i in gui.__controllers) {
-            gui.__controllers[i].updateDisplay();
-        }
-    }
+    // Set point size and dark LEDs if in config parameters
+    view.updateSizeDefault(params.size);
+    view.updateDarkVisible(params.dark);
     netStatusDisplay.innerHTML = '';
 });
 network.onColor( view.update.bind(view) );
