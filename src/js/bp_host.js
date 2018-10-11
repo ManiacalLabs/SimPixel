@@ -9,20 +9,26 @@ function getQueryParams(qs) {
     return params;
 }
 
-function bpHost() {
-    const BP_HOST_DEFAULT = 'localhost:1337';
+function bpParams() {
+    const BP_HOST_DEFAULT = 'ws://localhost:1337';
     const LS_ENABLED = typeof localStorage !== 'undefined';
     let bpHost = BP_HOST_DEFAULT;
     // Check if a server URL is specified in the query parameters
     const params = getQueryParams(document.location.search);
     if (params.host) {
-        return params.host;
-    }
-    if (LS_ENABLED && localStorage.bpHost) {
+        bpHost = params.host;
+    } else if (LS_ENABLED && localStorage.bpHost) {
         bpHost = localStorage.bpHost;
     }
     if (LS_ENABLED) {
         localStorage.bpHost = bpHost;
     }
-    return 'ws://' + bpHost;
+    let bpSize = 5;
+    if (!isNaN(params.size)) {
+        bpSize = parseInt(params.size);
+    }
+    return {
+        host: bpHost,
+        size: bpSize
+    }
 }
