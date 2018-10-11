@@ -11,6 +11,7 @@ class View {
         this.initialized = false;
         this.darkLEDsVisible = true;
         this.sizeDefault = 5;
+        this.gui = null;
     }
     init(positions) {
         this.removeParticleSystem(); // in case we were initialized already
@@ -173,6 +174,8 @@ class View {
 
         panel.add(this, 'toggle_fullscreen')
             .name('Fullscreen');
+
+        this.gui = panel;
 
     }
     showDarkLEDs(bool) {
