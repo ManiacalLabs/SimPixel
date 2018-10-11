@@ -11,7 +11,6 @@ class View {
         this.initialized = false;
         this.darkLEDsVisible = true;
         this.sizeDefault = 5;
-        this.panel = null;
     }
     init(positions) {
         this.removeParticleSystem(); // in case we were initialized already
@@ -139,7 +138,7 @@ class View {
     }
     adjustViewportFields() {
         this.material.uniforms.size.value = this.sizeDefault * this.heightScale;
-        this.panel.remember(this);
+        this.rememberParams();
     }
     removeParticleSystem() {
         // this should be enough to free all memory, making re-initialization
@@ -176,12 +175,10 @@ class View {
         panel.add(this, 'toggle_fullscreen')
             .name('Fullscreen');
 
-        this.panel = panel;
-
     }
     showDarkLEDs(bool) {
         this.particleSystem.material.uniforms.uDarkLEDsVisible.value = ~~bool;
-        this.panel.remember(this);
+        this.rememberParams();
     }
     updateControllers() {
         // Iterate over all controllers to update parameters
@@ -198,6 +195,10 @@ class View {
         this.darkLEDsVisible = val;
         this.showDarkLEDs(this.darkLEDsVisible);
         this.updateControllers();
+    }
+    rememberParams() {
+        localStorage.bpSize = this.sizeDefault;
+        localStorage.bpDark = this.darkLEDsVisible;
     }
     reset_camera() {
         this.controls.reset();
