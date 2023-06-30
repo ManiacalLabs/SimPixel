@@ -17,7 +17,7 @@ w = 16
 h = 16
 
 driver = SimPixel(w*h, port=1337, layout=None)
-led = LEDMatrix(driver, width=w, height=h)
+led = Matrix(driver, width=w, height=h)
 
 anim = MatrixCalibrationTest(led)
 anim.run()
