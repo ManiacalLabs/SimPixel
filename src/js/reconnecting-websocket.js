@@ -118,14 +118,14 @@
             automaticOpen: true,
 
             /** The number of milliseconds to delay before attempting to reconnect. */
-            reconnectInterval: 1000,
+            reconnectInterval: 100,
             /** The maximum number of milliseconds to delay a reconnection attempt. */
             maxReconnectInterval: 30000,
             /** The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. */
             reconnectDecay: 1.01,
 
             /** The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. */
-            timeoutInterval: 2000,
+            timeoutInterval: 300,
 
             /** The maximum number of reconnection attempts to make. Unlimited if null. */
             maxReconnectAttempts: null,
